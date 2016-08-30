@@ -1,6 +1,8 @@
 package windows;
 
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -135,8 +137,26 @@ public class AddOrderWindow extends JFrame {
 		btnAdd.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				AddOrderItemWindow aoiw = new AddOrderItemWindow(itemList, packageList);
-				aoiw.setVisible(true);
+				AddItemDialog aid = new AddItemDialog(itemList, packageList);
+				aid.setVisible(true);
+				aid.addConfirmListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						System.out.println("OK");
+						System.out.println("COOL: " + aid.getChckbxCool().isSelected());
+						aid.dispose();
+					}
+				});
+
+				aid.addCancelListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						System.out.println("Cancel");
+						aid.dispose();
+					}
+				});
 			}
 		});
 		contentPane.add(btnAdd);

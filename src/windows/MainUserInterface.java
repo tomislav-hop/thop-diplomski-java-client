@@ -6,7 +6,6 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
-
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -22,9 +21,6 @@ import java.awt.Color;
 
 public class MainUserInterface extends JFrame {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 619541736836981888L;
 	private JPanel contentPane;
 
@@ -48,31 +44,19 @@ public class MainUserInterface extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		BufferedImage buttonIcon = null;
 		try {
 			buttonIcon = ImageIO.read(classLoader.getResourceAsStream("Dining Room-48.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		JLabel btnLabel = new JLabel(new ImageIcon(buttonIcon));
 		btnLabel.setBackground(Color.LIGHT_GRAY);
 		btnLabel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				/*StatusImpl si = new StatusImpl();
-				List<Status> statusList = si.getAllStatuses();
-				for(Status s : statusList){
-					System.out.println(s.getStatusName());
-				}*/
-				
-				/*PackageImpl pi= new PackageImpl();
-				List<Package> packageList = pi.getPackageList();
-				for(Package p : packageList){
-					System.out.println(p.getPackageName());
-				}*/
-				
 				AddOrderWindow aow = new AddOrderWindow(userId);
 				aow.setVisible(true);
 			}
@@ -89,11 +73,13 @@ public class MainUserInterface extends JFrame {
 					showMenu(e);
 				}
 			}
+
 			public void mouseReleased(MouseEvent e) {
 				if (e.isPopupTrigger()) {
 					showMenu(e);
 				}
 			}
+
 			private void showMenu(MouseEvent e) {
 				popup.show(e.getComponent(), e.getX(), e.getY());
 			}
