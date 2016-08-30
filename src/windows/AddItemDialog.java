@@ -19,6 +19,7 @@ import com.github.lgooddatepicker.components.DateTimePicker;
 
 import gsonObjects.Item;
 import gsonObjects.Package;
+import implementations.DateTimePickerParser;
 
 @SuppressWarnings("rawtypes")
 public class AddItemDialog extends JDialog {
@@ -159,7 +160,7 @@ public class AddItemDialog extends JDialog {
 		String[] comboItem = new String[itemList.size()];
 		int counter = 0;
 		for (Item i : itemList) {
-			comboItem[counter] = i.getItemName() + "  " + i.getItemDescription();
+			comboItem[counter] = i.getItemName();
 			counter++;
 		}
 		DefaultComboBoxModel<String> cbmItem = new DefaultComboBoxModel<>(comboItem);
@@ -179,7 +180,15 @@ public class AddItemDialog extends JDialog {
 	}
 
 	public String[] getNewRow() {
-		return null;
+		String itemSelected = comboBoxItem.getSelectedItem().toString();
+		String deadlineTimeString = new DateTimePickerParser().getDateTimeForDateTimePicker(deadline);
+		String deliveryTimeString = new DateTimePickerParser().getDateTimeForDateTimePicker(deliveryTime);
+		String packageSelected = comboBoxPackage.getSelectedItem().toString();
+		String delivery = chckbxDelivery.isSelected() ? "Yes" : "No";
+		String cool = chckbxCool.isSelected() ? "Yes" : "No";
+		String cut = chckbxCut.isSelected() ? "Yes" : "No";
+		String[] returnRow = { itemSelected, deadlineTimeString, txtWeight.getText(), delivery, cool, cut, packageSelected, textArea.getText(), txtAmount.getText() };
+		return returnRow;
 	}
 
 	public void addConfirmListener(ActionListener listener) {

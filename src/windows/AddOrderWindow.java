@@ -144,7 +144,9 @@ public class AddOrderWindow extends JFrame {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						System.out.println("OK");
-						System.out.println("COOL: " + aid.getChckbxCool().isSelected());
+						// System.out.println("COOL: " +
+						// aid.getChckbxCool().isSelected());
+						model.addRow(aid.getNewRow());
 						aid.dispose();
 					}
 				});
@@ -174,7 +176,7 @@ public class AddOrderWindow extends JFrame {
 
 	@SuppressWarnings("unchecked")
 	private void loadDataForComboBoxes() {
-		//load status list and fill combo box
+		// load status list and fill combo box
 		StatusImpl si = new StatusImpl();
 		statusList = si.getAllStatuses();
 		String[] comboStatus = new String[statusList.size()];
@@ -187,26 +189,22 @@ public class AddOrderWindow extends JFrame {
 		comboBoxStatus.setModel(cbmStatus);
 		contentPane.add(comboBoxStatus);
 
-		//load values for items
+		// load values for items
 		GetItemList gil = new GetItemList();
 		itemList = gil.getItemList();
 
-		//load values for packages
+		// load values for packages
 		GetPackageList gpl = new GetPackageList();
 		packageList = gpl.getPackageList();
 	}
 
 	private void loadInitialTable() {
-		String[] columnNames = { "ID Item", "Deadline", "Weight", "Delivery", "Cool", "Cut", "ID Package", "Additional notes", "Amount" };
+		String[] columnNames = { "Item", "Deadline", "Weight", "Delivery", "Cool", "Cut", "Package", "Additional notes", "Amount" };
 		model = new DefaultTableModel();
 		for (String column : columnNames) {
 			model.addColumn(column);
 		}
 		itemTable = new JTable(model);
-		//TODO: Remove
-		String[] testDATA = { "AAAAAAAAA", "AAAAAAAAA", "AAAAAAAAA", "AAAAAAAAA", "AAAAAAAAA", "AAAAAAAAA", "AAAAAAAAA", "AAAAAAAAA AAAAAAAAA", "AAAAAAAAA" };
-		model.addRow(columnNames);
-		model.addRow(testDATA);
 	}
 
 	private int getStatusId() {
@@ -216,7 +214,6 @@ public class AddOrderWindow extends JFrame {
 			}
 		}
 		return -1;
-
 	}
 
 	private void sendAddOrderRequest() {
