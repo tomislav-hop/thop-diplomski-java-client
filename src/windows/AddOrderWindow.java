@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -126,6 +127,12 @@ public class AddOrderWindow extends JFrame {
 
 		JButton btnRemove = new JButton("Remove");
 		btnRemove.setBounds(772, 315, 89, 23);
+		btnRemove.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+			}
+		});
 		contentPane.add(btnRemove);
 
 		JButton btnEdit = new JButton("Edit");
@@ -199,7 +206,7 @@ public class AddOrderWindow extends JFrame {
 	}
 
 	private void loadInitialTable() {
-		String[] columnNames = { "Item", "Deadline", "Weight", "Delivery", "Cool", "Cut", "Package", "Additional notes", "Amount" };
+		String[] columnNames = { "Item", "Deadline", "Weight", "Delivery", "Cool", "Cut", "Package", "Additional notes", "Amount", "Delivery time" };
 		model = new DefaultTableModel();
 		for (String column : columnNames) {
 			model.addColumn(column);
@@ -220,5 +227,8 @@ public class AddOrderWindow extends JFrame {
 		AddOrder ao = new AddOrder();
 		int orderId = ao.sendAddOrderRequest(txtName.getText(), txtAdress.getText(), new DateTimePickerParser().getDateTimeForDateTimePicker(dateTimePicker), txtAreaAdditionalNotes.getText(), getStatusId(), userId);
 		System.out.println("Adder order with id: " + orderId);
+		
+		ao.addItemsToOrder(orderId, model, itemList, packageList);
+		
 	}
 }

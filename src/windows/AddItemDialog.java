@@ -187,7 +187,7 @@ public class AddItemDialog extends JDialog {
 		String delivery = chckbxDelivery.isSelected() ? "Yes" : "No";
 		String cool = chckbxCool.isSelected() ? "Yes" : "No";
 		String cut = chckbxCut.isSelected() ? "Yes" : "No";
-		String[] returnRow = { itemSelected, deadlineTimeString, txtWeight.getText(), delivery, cool, cut, packageSelected, textArea.getText(), txtAmount.getText() };
+		String[] returnRow = { itemSelected, deadlineTimeString, txtWeight.getText(), delivery, cool, cut, packageSelected, textArea.getText(), txtAmount.getText(), deliveryTimeString };
 		return returnRow;
 	}
 
