@@ -88,6 +88,7 @@ public class Login {
 		txtUsername.setColumns(10);
 
 		txtPassword = new JPasswordField();
+		txtPassword.setText("test");
 		txtPassword.setFont(new Font("SansSerif", Font.PLAIN, 14));
 		txtPassword.setBounds(127, 41, 154, 20);
 		frmOrderClient.getContentPane().add(txtPassword);

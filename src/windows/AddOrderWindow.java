@@ -1,17 +1,27 @@
 package windows;
 
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 
 import com.github.lgooddatepicker.components.DateTimePicker;
 
+import gsonObjects.Item;
+import gsonObjects.Package;
 import gsonObjects.Status;
+import implementations.DateTimePickerParser;
 import implementations.StatusImpl;
+import requests.AddOrder;
+import requests.GetItemList;
+import requests.GetPackageList;
 
 import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
@@ -24,15 +34,20 @@ import javax.swing.JButton;
 
 public class AddOrderWindow extends JFrame {
 
-	/**
-	 * 
-	 */
+	@SuppressWarnings("rawtypes")
+	private JComboBox comboBoxStatus;
 	private static final long serialVersionUID = -156197776011157836L;
 	private JPanel contentPane;
 	private JTextField txtName;
-	private JTextField txtSurname;
-	@SuppressWarnings("rawtypes")
-	private JComboBox comboBoxStatus;
+	private JTextField txtAdress;
+	private JTextArea txtAreaAdditionalNotes;
+	private DateTimePicker dateTimePicker;
+	private JTable itemTable;
+	private DefaultTableModel model;
+	private List<Status> statusList;
+	private List<Package> packageList;
+	private List<Item> itemList;
+	private int userId;
 
 	/**
 	 * Create the frame.
@@ -46,8 +61,7 @@ public class AddOrderWindow extends JFrame {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		System.out.println("User id is: " + userId);
+		this.userId = userId;
 		setFont(new Font("SansSerif", Font.PLAIN, 14));
 		setTitle("Add Order");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -59,15 +73,15 @@ public class AddOrderWindow extends JFrame {
 
 		comboBoxStatus = new JComboBox();
 		comboBoxStatus.setBounds(532, 20, 329, 20);
-		LoadDataForComboBoxes();
+		loadDataForComboBoxes();
 
 		JLabel lblName = new JLabel("Name:");
 		lblName.setBounds(31, 23, 85, 14);
 		contentPane.add(lblName);
 
-		JLabel lblSurname = new JLabel("Surname:");
-		lblSurname.setBounds(31, 53, 85, 14);
-		contentPane.add(lblSurname);
+		JLabel lblAdress = new JLabel("Adress:");
+		lblAdress.setBounds(31, 53, 85, 14);
+		contentPane.add(lblAdress);
 
 		JLabel lblOrderDate = new JLabel("Order Date:");
 		lblOrderDate.setBounds(31, 84, 85, 14);
@@ -86,26 +100,23 @@ public class AddOrderWindow extends JFrame {
 		contentPane.add(txtName);
 		txtName.setColumns(10);
 
-		txtSurname = new JTextField();
-		txtSurname.setBounds(126, 50, 281, 20);
-		contentPane.add(txtSurname);
-		txtSurname.setColumns(10);
+		txtAdress = new JTextField();
+		txtAdress.setBounds(126, 50, 281, 20);
+		contentPane.add(txtAdress);
+		txtAdress.setColumns(10);
 
-		JTextArea txtAreaAdditionalNotes = new JTextArea();
+		txtAreaAdditionalNotes = new JTextArea();
 		txtAreaAdditionalNotes.setBounds(532, 51, 329, 50);
 		contentPane.add(txtAreaAdditionalNotes);
 
-		DateTimePicker dateTimePicker = new DateTimePicker();
+		dateTimePicker = new DateTimePicker();
 		dateTimePicker.setBounds(126, 81, 281, 20);
 		contentPane.add(dateTimePicker);
 
-		/*JTextArea textArea = new JTextArea();
-		textArea.setBounds(126, 112, 732, 195);
-		contentPane.add(textArea);*/
-
-		JTable itemTable = addOrder();
-		itemTable.setBounds(126, 112, 732, 195);
-		contentPane.add(itemTable);
+		loadInitialTable();
+		JScrollPane jsp = new JScrollPane(itemTable);
+		jsp.setBounds(126, 112, 732, 195);
+		contentPane.add(jsp);
 
 		JLabel lblItems = new JLabel("Items");
 		lblItems.setBounds(31, 112, 46, 14);
@@ -121,17 +132,31 @@ public class AddOrderWindow extends JFrame {
 
 		JButton btnAdd = new JButton("Add");
 		btnAdd.setBounds(575, 315, 89, 23);
+		btnAdd.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				AddOrderItemWindow aoiw = new AddOrderItemWindow(itemList, packageList);
+				aoiw.setVisible(true);
+			}
+		});
 		contentPane.add(btnAdd);
 
 		JButton btnCreateOrder = new JButton("Order");
 		btnCreateOrder.setBounds(10, 349, 851, 36);
+		btnCreateOrder.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				sendAddOrderRequest();
+			}
+		});
 		contentPane.add(btnCreateOrder);
 	}
 
 	@SuppressWarnings("unchecked")
-	private void LoadDataForComboBoxes() {
+	private void loadDataForComboBoxes() {
+		//load status list and fill combo box
 		StatusImpl si = new StatusImpl();
-		List<Status> statusList = si.getAllStatuses();
+		statusList = si.getAllStatuses();
 		String[] comboStatus = new String[statusList.size()];
 		int counter = 0;
 		for (Status s : statusList) {
@@ -141,31 +166,42 @@ public class AddOrderWindow extends JFrame {
 		DefaultComboBoxModel<String> cbmStatus = new DefaultComboBoxModel<>(comboStatus);
 		comboBoxStatus.setModel(cbmStatus);
 		contentPane.add(comboBoxStatus);
+
+		//load values for items
+		GetItemList gil = new GetItemList();
+		itemList = gil.getItemList();
+
+		//load values for packages
+		GetPackageList gpl = new GetPackageList();
+		packageList = gpl.getPackageList();
 	}
 
-	private JTable addOrder() {
-		//String[] columnNames = { "ID Item", "Deadline", "Weight", "Start time", "Delivery", "Cool", "Cut", "ID Package", "Additional notes", "Amount"};
+	private void loadInitialTable() {
+		String[] columnNames = { "ID Item", "Deadline", "Weight", "Delivery", "Cool", "Cut", "ID Package", "Additional notes", "Amount" };
+		model = new DefaultTableModel();
+		for (String column : columnNames) {
+			model.addColumn(column);
+		}
+		itemTable = new JTable(model);
+		//TODO: Remove
+		String[] testDATA = { "AAAAAAAAA", "AAAAAAAAA", "AAAAAAAAA", "AAAAAAAAA", "AAAAAAAAA", "AAAAAAAAA", "AAAAAAAAA", "AAAAAAAAA AAAAAAAAA", "AAAAAAAAA" };
+		model.addRow(columnNames);
+		model.addRow(testDATA);
+	}
 
-		String[] columnNames = {"First Name",
-                "Last Name",
-                "Sport",
-                "# of Years",
-                "Vegetarian"};
-		
-		Object[][] data = {
-			    {"Kathy", "Smith",
-			     "Snowboarding", new Integer(5), new Boolean(false)},
-			    {"John", "Doe",
-			     "Rowing", new Integer(3), new Boolean(true)},
-			    {"Sue", "Black",
-			     "Knitting", new Integer(2), new Boolean(false)},
-			    {"Jane", "White",
-			     "Speed reading", new Integer(20), new Boolean(true)},
-			    {"Joe", "Brown",
-			     "Pool", new Integer(10), new Boolean(false)}
-			};
+	private int getStatusId() {
+		for (Status s : statusList) {
+			if (s.getStatusName().equalsIgnoreCase(comboBoxStatus.getSelectedItem().toString())) {
+				return s.getStatusId();
+			}
+		}
+		return -1;
 
-		JTable table = new JTable(data, columnNames);
-		return table;
+	}
+
+	private void sendAddOrderRequest() {
+		AddOrder ao = new AddOrder();
+		int orderId = ao.sendAddOrderRequest(txtName.getText(), txtAdress.getText(), new DateTimePickerParser().getDateTimeForDateTimePicker(dateTimePicker), txtAreaAdditionalNotes.getText(), getStatusId(), userId);
+		System.out.println("Adder order with id: " + orderId);
 	}
 }
