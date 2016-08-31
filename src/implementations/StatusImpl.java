@@ -19,5 +19,15 @@ public class StatusImpl {
 		}
 		return -1;
 	}
+	
+	public String getStatusName(List<Status> statusList, int idStatus) {
+		for (Status s : statusList) {
+			if (s.getStatusId()==idStatus) {
+				return s.getStatusName();
+			}
+		}
+		return null;
+	}
+
 
 }

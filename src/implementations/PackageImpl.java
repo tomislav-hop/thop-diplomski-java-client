@@ -19,4 +19,13 @@ public class PackageImpl {
 		}
 		return -1;
 	}
+	
+	public String getPackageName(List<Package> packageList, int packageId) {
+		for (Package p : packageList) {
+			if (p.getPackageId() == packageId) {
+				return p.getPackageName();
+			}
+		}
+		return null;
+	}
 }

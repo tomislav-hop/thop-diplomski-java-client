@@ -20,4 +20,14 @@ public class ItemImpl {
 		}
 		return -1;
 	}
+
+	public String getItemName(List<Item> itemList, int itemId) {
+
+		for (Item i : itemList) {
+			if (i.getItemId() == itemId) {
+				return i.getItemName();
+			}
+		}
+		return null;
+	}
 }

@@ -7,35 +7,34 @@ import java.util.List;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import gsonObjects.Order;
+import gsonObjects.OrderItems;
 import implementations.Urls;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class GetOrders {
+public class GetOrderItemsList {
 	OkHttpClient client;
 
-	public GetOrders() {
+	public GetOrderItemsList() {
 		client = new OkHttpClient();
 	}
 
-	public List<Order> getOrderList(int userId) {
+	public List<OrderItems> getOrderItemsList(String orderId) {
 		Gson gson = new GsonBuilder().create();
-		Request request = new Request.Builder().url(Urls.GET_ALL_ORDERS + userId).build();
+		Request request = new Request.Builder().url(Urls.GET_FULL_ORDER + orderId).build();
 		try (Response response = client.newCall(request).execute()) {
 			String responseJson = response.body().string();
 			//System.out.println(responseJson);
-			Order[] pArray = gson.fromJson(responseJson, Order[].class);
-			List<Order> OrderList = new ArrayList<Order>();
-			for(Order p : pArray){
-				OrderList.add(p);
+			OrderItems[] oi = gson.fromJson(responseJson, OrderItems[].class);
+			List<OrderItems> OrderItemsList = new ArrayList<OrderItems>();
+			for(OrderItems s : oi){
+				OrderItemsList.add(s);
 			}
-			return OrderList;
+			return OrderItemsList;
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
-	
 }

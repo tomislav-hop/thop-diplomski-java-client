@@ -38,7 +38,7 @@ public class MainUserInterface extends JFrame {
 		setFont(new Font("SansSerif", Font.PLAIN, 14));
 		setTitle("Main Window");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 330, 150);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -62,11 +62,11 @@ public class MainUserInterface extends JFrame {
 		});
 		btnLabelAddOrder.setBounds(30, 25, 48, 48);
 		contentPane.add(btnLabelAddOrder);
-		
+
 		JLabel labelAddOrder = new JLabel("Add Order");
-		labelAddOrder.setBounds(30, 75,100, 10);
+		labelAddOrder.setBounds(30, 75, 100, 10);
 		contentPane.add(labelAddOrder);
-		
+
 		BufferedImage buttonIconViewOrders = null;
 		try {
 			buttonIconViewOrders = ImageIO.read(classLoader.getResourceAsStream("Clock-48.png"));
@@ -79,18 +79,39 @@ public class MainUserInterface extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				//TODO: Show order history
+				ViewOrderHistoryWindow vohw = new ViewOrderHistoryWindow(userId);
+				vohw.setVisible(true);
 			}
 		});
 		btnLabelViewOrders.setBounds(120, 25, 48, 48);
 		contentPane.add(btnLabelViewOrders);
-		
+
 		JLabel labelViewOrders = new JLabel("Order History");
 		labelViewOrders.setBounds(115, 75, 100, 10);
 		contentPane.add(labelViewOrders);
-		
-		
-		
-		
+
+		BufferedImage buttonCalculateTime = null;
+		try {
+			buttonCalculateTime = ImageIO.read(classLoader.getResourceAsStream("Time-48.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		JLabel btnCalculateTime = new JLabel(new ImageIcon(buttonCalculateTime));
+		btnCalculateTime.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				//TODO: Show order history
+				System.out.println("Test");
+			}
+		});
+		btnCalculateTime.setBounds(210, 25, 48, 48);
+		contentPane.add(btnCalculateTime);
+
+		JLabel labelCalculateTime = new JLabel("Calculate bake time");
+		labelCalculateTime.setBounds(200, 75, 100, 10);
+		contentPane.add(labelCalculateTime);
+
 	}
 
 	@SuppressWarnings("unused")
