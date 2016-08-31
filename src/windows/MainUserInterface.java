@@ -28,7 +28,6 @@ public class MainUserInterface extends JFrame {
 	 * Create the frame.
 	 */
 	public MainUserInterface(int userId) {
-		setFont(new Font("SansSerif", Font.PLAIN, 14));
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		try {
 			setIconImage(ImageIO.read(classLoader.getResourceAsStream("Deliver Food-48.png")));
@@ -38,31 +37,60 @@ public class MainUserInterface extends JFrame {
 		}
 		setFont(new Font("SansSerif", Font.PLAIN, 14));
 		setTitle("Main Window");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		BufferedImage buttonIcon = null;
+		BufferedImage buttonIconAddOrder = null;
 		try {
-			buttonIcon = ImageIO.read(classLoader.getResourceAsStream("Dining Room-48.png"));
+			buttonIconAddOrder = ImageIO.read(classLoader.getResourceAsStream("Dining Room-48.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		JLabel btnLabel = new JLabel(new ImageIcon(buttonIcon));
-		btnLabel.setBackground(Color.LIGHT_GRAY);
-		btnLabel.addMouseListener(new MouseAdapter() {
+		JLabel btnLabelAddOrder = new JLabel(new ImageIcon(buttonIconAddOrder));
+		btnLabelAddOrder.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				AddOrderWindow aow = new AddOrderWindow(userId);
+				aow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 				aow.setVisible(true);
 			}
 		});
-		btnLabel.setBounds(30, 25, 48, 48);
-		contentPane.add(btnLabel);
+		btnLabelAddOrder.setBounds(30, 25, 48, 48);
+		contentPane.add(btnLabelAddOrder);
+		
+		JLabel labelAddOrder = new JLabel("Add Order");
+		labelAddOrder.setBounds(30, 75,100, 10);
+		contentPane.add(labelAddOrder);
+		
+		BufferedImage buttonIconViewOrders = null;
+		try {
+			buttonIconViewOrders = ImageIO.read(classLoader.getResourceAsStream("Clock-48.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		JLabel btnLabelViewOrders = new JLabel(new ImageIcon(buttonIconViewOrders));
+		btnLabelViewOrders.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				//TODO: Show order history
+			}
+		});
+		btnLabelViewOrders.setBounds(120, 25, 48, 48);
+		contentPane.add(btnLabelViewOrders);
+		
+		JLabel labelViewOrders = new JLabel("Order History");
+		labelViewOrders.setBounds(115, 75, 100, 10);
+		contentPane.add(labelViewOrders);
+		
+		
+		
+		
 	}
 
 	@SuppressWarnings("unused")

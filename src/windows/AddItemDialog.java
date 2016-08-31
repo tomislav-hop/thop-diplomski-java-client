@@ -2,8 +2,12 @@ package windows;
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -11,11 +15,15 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 
 import com.github.lgooddatepicker.components.DateTimePicker;
+import com.github.lgooddatepicker.components.TimePickerSettings;
 
 import gsonObjects.Item;
 import gsonObjects.Package;
@@ -62,6 +70,14 @@ public class AddItemDialog extends JDialog {
 		this.packageList = packageList;
 		setBounds(100, 100, 468, 370);
 		getContentPane().setLayout(null);
+		setTitle("Add Item To Order");
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		try {
+			setIconImage(ImageIO.read(classLoader.getResourceAsStream("Deliver Food-48.png")));
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		contentPanel.setBounds(0, 0, 448, 296);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel);
@@ -189,6 +205,34 @@ public class AddItemDialog extends JDialog {
 		String cut = chckbxCut.isSelected() ? "Yes" : "No";
 		String[] returnRow = { itemSelected, deadlineTimeString, txtWeight.getText(), delivery, cool, cut, packageSelected, textArea.getText(), txtAmount.getText(), deliveryTimeString };
 		return returnRow;
+	}
+
+	public void fillFields(DefaultTableModel model, JTable table) {
+
+		int selectedRow = table.getSelectedRow();
+
+		String selectedItem = model.getValueAt(selectedRow, 0).toString();
+		String deadlineTime = model.getValueAt(selectedRow, 1).toString();
+		String weight = model.getValueAt(selectedRow, 2).toString();
+		String delivery = model.getValueAt(selectedRow, 3).toString();
+		String cool = model.getValueAt(selectedRow, 4).toString();
+		String cut = model.getValueAt(selectedRow, 5).toString();
+		String itemPackage = model.getValueAt(selectedRow, 6).toString();
+		String additionalNotes = model.getValueAt(selectedRow, 7).toString();
+		String amount = model.getValueAt(selectedRow, 8).toString();
+		String deliveryString = model.getValueAt(selectedRow, 9).toString();
+
+		comboBoxItem.setSelectedItem(selectedItem);
+		deadline.setDateTimePermissive(new DateTimePickerParser().dateStringIntoLocalDateTime(deadlineTime));
+		txtWeight.setText(weight);
+		chckbxDelivery.setSelected((delivery.equalsIgnoreCase("Yes") ? true : false));
+		chckbxCool.setSelected((cool.equalsIgnoreCase("Yes") ? true : false));
+		chckbxCut.setSelected((cut.equalsIgnoreCase("Yes") ? true : false));
+		comboBoxPackage.setSelectedItem(itemPackage);
+		textArea.setText(additionalNotes);
+		txtAmount.setText(amount);
+		deliveryTime.setDateTimePermissive(new DateTimePickerParser().dateStringIntoLocalDateTime(deliveryString));
+
 	}
 
 	public void addConfirmListener(ActionListener listener) {

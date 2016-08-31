@@ -25,7 +25,7 @@ public class GetPackageList {
 		Request request = new Request.Builder().url(Urls.GET_ALL_PACKAGES).build();
 		try (Response response = client.newCall(request).execute()) {
 			String responseJson = response.body().string();
-			System.out.println(responseJson);
+			//System.out.println(responseJson);
 			Package[] pArray = gson.fromJson(responseJson, Package[].class);
 			List<Package> packageList = new ArrayList<Package>();
 			for(Package p : pArray){

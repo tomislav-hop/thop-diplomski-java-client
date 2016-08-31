@@ -25,7 +25,7 @@ public class GetItemList {
 		Request request = new Request.Builder().url(Urls.GET_ALL_ITEMS).build();
 		try (Response response = client.newCall(request).execute()) {
 			String responseJson = response.body().string();
-			System.out.println(responseJson);
+			//System.out.println(responseJson);
 			Item[] pArray = gson.fromJson(responseJson, Item[].class);
 			List<Item> itemList = new ArrayList<Item>();
 			for(Item p : pArray){
@@ -37,4 +37,6 @@ public class GetItemList {
 			return null;
 		}
 	}
+	
+
 }

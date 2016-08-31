@@ -17,7 +17,7 @@ public class Urls {
 	public static final String ADD_PACKAGE = START_URL + "package/add";
 	public static final String ADD_ORDER = START_URL + "order/add";
 	public static final String GET_ALL_ORDERS = START_URL + "order/getAll";
-	public static final String GET_ORDER = START_URL + "get?orderId=";
-	public static final String ADD_FULL_ORDER = START_URL + "add?orderId=";
+	public static final String GET_ORDER = START_URL + "order/get?orderId=";
+	public static final String ADD_FULL_ORDER = START_URL + "orderItems/add?orderId=";
 	public static final String GET_FULL_ORDER = START_URL + "orderItems/getAll?orderId=";
 }

@@ -13,6 +13,9 @@ import gsonObjects.Item;
 import gsonObjects.Order;
 import gsonObjects.OrderItems;
 import gsonObjects.Package;
+import implementations.ItemImpl;
+import implementations.OrderImpl;
+import implementations.PackageImpl;
 import implementations.Urls;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -22,6 +25,11 @@ import okhttp3.Response;
 public class AddOrder {
 
 	OkHttpClient client;
+	OrderImpl orderImpl = new OrderImpl();
+	PackageImpl packageImpl = new PackageImpl();
+	ItemImpl itemImpl = new ItemImpl();
+	
+	
 
 	public AddOrder() {
 		client = new OkHttpClient();
@@ -29,9 +37,7 @@ public class AddOrder {
 
 	public int sendAddOrderRequest(String orderedBy, String adress, String orderDate, String additionalNotes, int status_id, int user_id) {
 		Order order = new Order(0, orderedBy, adress, orderDate, additionalNotes, status_id, user_id);
-
 		String requestJson = new Gson().toJson(order);
-
 		RequestBody body = RequestBody.create(Urls.JSON, requestJson);
 		Request request = new Request.Builder().url(Urls.ADD_ORDER).post(body).build();
 		try (Response response = client.newCall(request).execute()) {
@@ -48,53 +54,30 @@ public class AddOrder {
 	}
 
 	public boolean addItemsToOrder(int idOrder, DefaultTableModel model, List<Item> itemList, List<Package> packageList) {
-
-		String[][] tableData = getTableData(model);
+		String[][] tableData = orderImpl.getTableData(model);
 		List<OrderItems> orderItemList = new ArrayList<>();
 		for (int i = 0; i < tableData.length; i++) {
 			//TODO: Check dates which you are adding
-			OrderItems oi = new OrderItems(0, getItemId(itemList, tableData[i][0]), tableData[i][1], Double.parseDouble(tableData[i][2]), tableData[i][1], parseCheckboxValue(tableData[i][3]), parseCheckboxValue(tableData[i][4]), parseCheckboxValue(tableData[i][5]), getPackageId(packageList, tableData[i][6]), tableData[i][7], tableData[i][9], idOrder, Integer.parseInt(tableData[i][8]));
+			OrderItems oi = new OrderItems(0, itemImpl.getItemId(itemList, tableData[i][0]), tableData[i][1], Double.parseDouble(tableData[i][2]), tableData[i][1], orderImpl.parseCheckboxValue(tableData[i][3]), orderImpl.parseCheckboxValue(tableData[i][4]), orderImpl.parseCheckboxValue(tableData[i][5]), packageImpl.getPackageId(packageList, tableData[i][6]), tableData[i][7], tableData[i][9], idOrder, Integer.parseInt(tableData[i][8]));
 			orderItemList.add(oi);
 		}
 
 		//TODO: Parse to json and send to server
+		String requestJson = new Gson().toJson(orderItemList);
+		System.out.println(requestJson);
 
-		return false;
-	}
-
-	private int parseCheckboxValue(String value) {
-		if (value.equalsIgnoreCase("Yes")) {
-			return 1;
-		} else {
-			return 0;
-		}
-	}
-
-	private int getItemId(List<Item> itemList, String itemName) {
-
-		for (Item i : itemList) {
-			if (i.getItemName().equalsIgnoreCase(itemName)) {
-				return i.getItemId();
+		RequestBody body = RequestBody.create(Urls.JSON, requestJson);
+		Request request = new Request.Builder().url(Urls.ADD_FULL_ORDER + idOrder).post(body).build();
+		try (Response response = client.newCall(request).execute()) {
+			String returnResponse = response.body().string();
+			if (returnResponse.contains("Successfully added")) {
+				return true;
+			} else {
+				return false;
 			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
 		}
-		return -1;
-	}
-
-	private int getPackageId(List<Package> packageList, String packageName) {
-		for (Package p : packageList) {
-			if (p.getPackageName().equalsIgnoreCase(packageName)) {
-				return p.getPackageId();
-			}
-		}
-		return -1;
-	}
-
-	private String[][] getTableData(DefaultTableModel dtm) {
-		int nRow = dtm.getRowCount(), nCol = dtm.getColumnCount();
-		String[][] tableData = new String[nRow][nCol];
-		for (int i = 0; i < nRow; i++)
-			for (int j = 0; j < nCol; j++)
-				tableData[i][j] = dtm.getValueAt(i, j).toString();
-		return tableData;
 	}
 }

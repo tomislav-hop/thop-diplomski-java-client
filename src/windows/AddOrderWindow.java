@@ -21,6 +21,9 @@ import gsonObjects.Item;
 import gsonObjects.Package;
 import gsonObjects.Status;
 import implementations.DateTimePickerParser;
+import implementations.ItemImpl;
+import implementations.OrderImpl;
+import implementations.PackageImpl;
 import implementations.StatusImpl;
 import requests.AddOrder;
 import requests.GetItemList;
@@ -30,6 +33,7 @@ import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.JTextArea;
@@ -57,6 +61,7 @@ public class AddOrderWindow extends JFrame {
 	 */
 	@SuppressWarnings("rawtypes")
 	public AddOrderWindow(int userId) {
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		try {
 			setIconImage(ImageIO.read(classLoader.getResourceAsStream("Deliver Food-48.png")));
@@ -130,13 +135,42 @@ public class AddOrderWindow extends JFrame {
 		btnRemove.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-
+				if(itemTable.getSelectedRow() != -1){
+					model.removeRow(itemTable.getSelectedRow());
+				}
 			}
 		});
 		contentPane.add(btnRemove);
 
 		JButton btnEdit = new JButton("Edit");
 		btnEdit.setBounds(673, 315, 89, 23);
+		btnEdit.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (itemTable.getSelectedRow() != -1) {
+					AddItemDialog aid = new AddItemDialog(itemList, packageList);
+					aid.fillFields(model, itemTable);
+					aid.setVisible(true);
+					aid.addConfirmListener(new ActionListener() {
+
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							model.removeRow(itemTable.getSelectedRow());
+							model.addRow(aid.getNewRow());
+							aid.dispose();
+						}
+					});
+
+					aid.addCancelListener(new ActionListener() {
+
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							aid.dispose();
+						}
+					});
+				}
+			}
+		});
 		contentPane.add(btnEdit);
 
 		JButton btnAdd = new JButton("Add");
@@ -150,9 +184,6 @@ public class AddOrderWindow extends JFrame {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						System.out.println("OK");
-						// System.out.println("COOL: " +
-						// aid.getChckbxCool().isSelected());
 						model.addRow(aid.getNewRow());
 						aid.dispose();
 					}
@@ -162,7 +193,6 @@ public class AddOrderWindow extends JFrame {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						System.out.println("Cancel");
 						aid.dispose();
 					}
 				});
@@ -197,12 +227,12 @@ public class AddOrderWindow extends JFrame {
 		contentPane.add(comboBoxStatus);
 
 		// load values for items
-		GetItemList gil = new GetItemList();
-		itemList = gil.getItemList();
+		ItemImpl ii = new ItemImpl();
+		itemList = ii.getItemList();
 
 		// load values for packages
-		GetPackageList gpl = new GetPackageList();
-		packageList = gpl.getPackageList();
+		PackageImpl pi = new PackageImpl();
+		packageList = pi.getPackageList();
 	}
 
 	private void loadInitialTable() {
@@ -214,21 +244,19 @@ public class AddOrderWindow extends JFrame {
 		itemTable = new JTable(model);
 	}
 
-	private int getStatusId() {
-		for (Status s : statusList) {
-			if (s.getStatusName().equalsIgnoreCase(comboBoxStatus.getSelectedItem().toString())) {
-				return s.getStatusId();
-			}
-		}
-		return -1;
-	}
-
 	private void sendAddOrderRequest() {
-		AddOrder ao = new AddOrder();
-		int orderId = ao.sendAddOrderRequest(txtName.getText(), txtAdress.getText(), new DateTimePickerParser().getDateTimeForDateTimePicker(dateTimePicker), txtAreaAdditionalNotes.getText(), getStatusId(), userId);
+		OrderImpl orderImpl = new OrderImpl();
+		StatusImpl statusImpl = new StatusImpl();
+		int orderId = orderImpl.sendAddOrderRequest(txtName.getText(), txtAdress.getText(), new DateTimePickerParser().getDateTimeForDateTimePicker(dateTimePicker), txtAreaAdditionalNotes.getText(), statusImpl.getStatusId(statusList, comboBoxStatus.getSelectedItem().toString()), userId);
 		System.out.println("Adder order with id: " + orderId);
-		
-		ao.addItemsToOrder(orderId, model, itemList, packageList);
-		
+
+		if (orderImpl.addItemsToOrder(orderId, model, itemList, packageList)) {
+			JOptionPane.showConfirmDialog(null, "Order added successfully", "Order add success!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE);
+			this.setVisible(false);
+			this.dispose();
+		} else {
+			JOptionPane.showConfirmDialog(null, "Order add has failed", "Order add fail!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE);
+		}
+
 	}
 }

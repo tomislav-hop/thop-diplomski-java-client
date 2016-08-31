@@ -26,7 +26,7 @@ public class GetStatusList {
 		Request request = new Request.Builder().url(Urls.GET_ALL_STATUS).build();
 		try (Response response = client.newCall(request).execute()) {
 			String responseJson = response.body().string();
-			System.out.println(responseJson);
+			//System.out.println(responseJson);
 			Status[] oi = gson.fromJson(responseJson, Status[].class);
 			List<Status> statusList = new ArrayList<Status>();
 			for(Status s : oi){
