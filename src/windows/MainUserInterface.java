@@ -37,7 +37,7 @@ public class MainUserInterface extends JFrame {
 			e.printStackTrace();
 		}
 		setFont(new Font("SansSerif", Font.PLAIN, 14));
-		setTitle("Main Window");
+		setTitle("Order Java Client");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 310, 150);
 		contentPane = new JPanel();
