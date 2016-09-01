@@ -39,7 +39,7 @@ public class MainUserInterface extends JFrame {
 		setFont(new Font("SansSerif", Font.PLAIN, 14));
 		setTitle("Main Window");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 330, 150);
+		setBounds(100, 100, 310, 150);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -65,7 +65,8 @@ public class MainUserInterface extends JFrame {
 		contentPane.add(btnLabelAddOrder);
 
 		JLabel labelAddOrder = new JLabel("Add Order");
-		labelAddOrder.setBounds(30, 75, 100, 10);
+		labelAddOrder.setFont(new Font("SansSerif", Font.PLAIN, 12));
+		labelAddOrder.setBounds(30, 75, 100, 15);
 		contentPane.add(labelAddOrder);
 
 		BufferedImage buttonIconViewOrders = null;
@@ -88,7 +89,8 @@ public class MainUserInterface extends JFrame {
 		contentPane.add(btnLabelViewOrders);
 
 		JLabel labelViewOrders = new JLabel("Order History");
-		labelViewOrders.setBounds(115, 75, 100, 10);
+		labelViewOrders.setBounds(110, 75, 100, 15);
+		labelViewOrders.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		contentPane.add(labelViewOrders);
 
 		BufferedImage buttonCalculateTime = null;
@@ -115,8 +117,9 @@ public class MainUserInterface extends JFrame {
 		btnCalculateTime.setBounds(210, 25, 48, 48);
 		contentPane.add(btnCalculateTime);
 
-		JLabel labelCalculateTime = new JLabel("Calculate bake time");
-		labelCalculateTime.setBounds(200, 75, 100, 10);
+		JLabel labelCalculateTime = new JLabel("Bake time");
+		labelCalculateTime.setBounds(210, 75, 100, 15);
+		labelCalculateTime.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		contentPane.add(labelCalculateTime);
 
 	}

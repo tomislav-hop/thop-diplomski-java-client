@@ -3,6 +3,7 @@ package windows;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -70,32 +71,39 @@ public class BakeTimeDialog extends JDialog {
 
 		JLabel lblItem = new JLabel("Item:");
 		lblItem.setBounds(10, 11, 46, 14);
+		lblItem.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		contentPanel.add(lblItem);
 
 		JLabel lblWeight = new JLabel("Weight:");
 		lblWeight.setBounds(10, 36, 46, 14);
+		lblWeight.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		contentPanel.add(lblWeight);
 
 		JLabel lblBakeTime = new JLabel("Bake time: ");
-		lblBakeTime.setBounds(10, 61, 53, 14);
+		lblBakeTime.setBounds(10, 61, 70, 14);
+		lblBakeTime.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		contentPanel.add(lblBakeTime);
 
 		comboBoxItem = new JComboBox();
 		comboBoxItem.setBounds(92, 8, 160, 20);
+		comboBoxItem.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		loadDataForComboBoxes();
 
 		txtWeight = new JTextField();
 		txtWeight.setBounds(92, 33, 160, 20);
+		txtWeight.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		contentPanel.add(txtWeight);
 		txtWeight.setColumns(10);
 
 		txtBakeTime = new JTextField();
 		txtBakeTime.setEditable(false);
 		txtBakeTime.setBounds(92, 58, 160, 20);
+		txtBakeTime.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		contentPanel.add(txtBakeTime);
 		txtBakeTime.setColumns(10);
 
 		JButton btnCalculate = new JButton("Calculate");
+		btnCalculate.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		btnCalculate.setBounds(10, 86, 242, 23);
 
 		btnCalculate.addMouseListener(new MouseListener() {
@@ -133,6 +141,7 @@ public class BakeTimeDialog extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				cancelButton = new JButton("Close");
+				cancelButton.setFont(new Font("SansSerif", Font.PLAIN, 12));
 				cancelButton.setActionCommand("Close");
 				buttonPane.add(cancelButton);
 			}

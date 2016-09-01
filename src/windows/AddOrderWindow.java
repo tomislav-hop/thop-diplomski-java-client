@@ -1,5 +1,6 @@
 package windows;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +14,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 import com.github.lgooddatepicker.components.DateTimePicker;
 
@@ -66,7 +68,7 @@ public class AddOrderWindow extends JFrame {
 			e.printStackTrace();
 		}
 		this.userId = userId;
-		setFont(new Font("SansSerif", Font.PLAIN, 14));
+		setFont(new Font("SansSerif", Font.PLAIN, 16));
 		setTitle("Add Order");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 887, 429);
@@ -77,61 +79,79 @@ public class AddOrderWindow extends JFrame {
 
 		comboBoxStatus = new JComboBox();
 		comboBoxStatus.setBounds(532, 20, 329, 20);
+		comboBoxStatus.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		loadDataForComboBoxes();
 
 		JLabel lblName = new JLabel("Name:");
 		lblName.setBounds(31, 23, 85, 14);
+		lblName.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		contentPane.add(lblName);
 
 		JLabel lblAdress = new JLabel("Adress:");
 		lblAdress.setBounds(31, 53, 85, 14);
+		lblAdress.setFont(new Font("SansSerif", Font.PLAIN, 12));
+		;
 		contentPane.add(lblAdress);
 
 		JLabel lblOrderDate = new JLabel("Order Date:");
 		lblOrderDate.setBounds(31, 84, 85, 14);
+		lblOrderDate.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		contentPane.add(lblOrderDate);
 
-		JLabel lblAdditionalNotes = new JLabel("Additional Notes:");
+		JLabel lblAdditionalNotes = new JLabel("Notes:");
 		lblAdditionalNotes.setBounds(430, 53, 85, 14);
+		lblAdditionalNotes.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		contentPane.add(lblAdditionalNotes);
 
 		JLabel lblStatusId = new JLabel("Status:");
 		lblStatusId.setBounds(430, 23, 85, 14);
+		lblStatusId.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		contentPane.add(lblStatusId);
 
 		txtName = new JTextField();
 		txtName.setBounds(126, 20, 281, 20);
+		txtName.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		contentPane.add(txtName);
 		txtName.setColumns(10);
 
 		txtAdress = new JTextField();
 		txtAdress.setBounds(126, 50, 281, 20);
+		txtAdress.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		contentPane.add(txtAdress);
 		txtAdress.setColumns(10);
 
 		txtAreaAdditionalNotes = new JTextArea();
 		txtAreaAdditionalNotes.setBounds(532, 51, 329, 50);
+		txtAreaAdditionalNotes.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		contentPane.add(txtAreaAdditionalNotes);
 
 		dateTimePicker = new DateTimePicker();
 		dateTimePicker.setBounds(126, 81, 281, 20);
+		dateTimePicker.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		contentPane.add(dateTimePicker);
 
 		loadInitialTable();
+		itemTable.setFont(new Font("SansSerif", Font.PLAIN, 12));
+		JTableHeader itemHeader = itemTable.getTableHeader();
+		itemHeader.setOpaque(false);
+		itemHeader.setBackground(Color.LIGHT_GRAY);
+		itemHeader.setForeground(Color.BLACK);
 		JScrollPane jsp = new JScrollPane(itemTable);
 		jsp.setBounds(126, 112, 732, 195);
 		contentPane.add(jsp);
 
 		JLabel lblItems = new JLabel("Items");
 		lblItems.setBounds(31, 112, 46, 14);
+		lblItems.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		contentPane.add(lblItems);
 
 		JButton btnRemove = new JButton("Remove");
 		btnRemove.setBounds(772, 315, 89, 23);
+		btnRemove.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		btnRemove.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(itemTable.getSelectedRow() != -1){
+				if (itemTable.getSelectedRow() != -1) {
 					model.removeRow(itemTable.getSelectedRow());
 				}
 			}
@@ -140,6 +160,7 @@ public class AddOrderWindow extends JFrame {
 
 		JButton btnEdit = new JButton("Edit");
 		btnEdit.setBounds(673, 315, 89, 23);
+		btnEdit.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		btnEdit.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -171,6 +192,7 @@ public class AddOrderWindow extends JFrame {
 
 		JButton btnAdd = new JButton("Add");
 		btnAdd.setBounds(575, 315, 89, 23);
+		btnAdd.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		btnAdd.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -198,6 +220,7 @@ public class AddOrderWindow extends JFrame {
 
 		JButton btnCreateOrder = new JButton("Order");
 		btnCreateOrder.setBounds(10, 349, 851, 36);
+		btnCreateOrder.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		btnCreateOrder.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {

@@ -51,19 +51,15 @@ public class Login {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		frmOrderClient = new JFrame();
 		frmOrderClient.setFont(new Font("SansSerif", Font.PLAIN, 14));
 		frmOrderClient.setTitle("Order Client");
 		frmOrderClient.setResizable(false);
 		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			frmOrderClient.setIconImage(ImageIO.read(classLoader.getResourceAsStream("Deliver Food-48.png")));
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		frmOrderClient.setBounds(100, 100, 304, 155);
@@ -71,7 +67,7 @@ public class Login {
 		frmOrderClient.getContentPane().setLayout(null);
 
 		JLabel lblNewLabel = new JLabel("Username:");
-		lblNewLabel.setFont(new Font("SansSerif", Font.PLAIN, 15));
+		lblNewLabel.setFont(new Font("SansSerif", Font.PLAIN, 14));
 		lblNewLabel.setBounds(27, 14, 79, 14);
 		frmOrderClient.getContentPane().add(lblNewLabel);
 

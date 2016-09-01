@@ -1,6 +1,8 @@
 package windows;
 
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -13,6 +15,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 import gsonObjects.Item;
 import gsonObjects.Order;
@@ -23,7 +26,6 @@ import implementations.ItemImpl;
 import implementations.OrderImpl;
 import implementations.PackageImpl;
 import implementations.StatusImpl;
-
 
 public class ViewOrderHistoryWindow extends JFrame {
 	private static final long serialVersionUID = -181291044074420287L;
@@ -74,10 +76,20 @@ public class ViewOrderHistoryWindow extends JFrame {
 		contentPane.setLayout(null);
 
 		loadTablesAndLists();
+		orderTable.setFont(new Font("SansSerif", Font.PLAIN, 12));
+		JTableHeader orderHeader = orderTable.getTableHeader();
+		orderHeader.setOpaque(false);
+		orderHeader.setBackground(Color.LIGHT_GRAY);
+		orderHeader.setForeground(Color.BLACK);
 		JScrollPane jspOrder = new JScrollPane(orderTable);
 		jspOrder.setBounds(5, 11, 774, 278);
 		contentPane.add(jspOrder);
 
+		JTableHeader itemHeader = itemTable.getTableHeader();
+		itemHeader.setOpaque(false);
+		itemHeader.setBackground(Color.LIGHT_GRAY);
+		itemHeader.setForeground(Color.BLACK);
+		itemTable.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		JScrollPane jspItems = new JScrollPane(itemTable);
 		jspItems.setBounds(5, 300, 774, 278);
 		contentPane.add(jspItems);

@@ -1,6 +1,7 @@
 package windows;
 
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.util.List;
 
@@ -80,72 +81,89 @@ public class AddItemDialog extends JDialog {
 
 		comboBoxItem = new JComboBox();
 		comboBoxItem.setBounds(90, 11, 347, 20);
+		comboBoxItem.setFont(new Font("SansSerif", Font.PLAIN, 12));
 
 		comboBoxPackage = new JComboBox();
 		comboBoxPackage.setBounds(90, 121, 347, 20);
+		comboBoxPackage.setFont(new Font("SansSerif", Font.PLAIN, 12));
 
 		loadDataForComboBoxes();
 
 		JLabel lblItem = new JLabel("Item:");
-		lblItem.setBounds(10, 14, 26, 14);
+		lblItem.setBounds(10, 14, 30, 14);
+		lblItem.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		contentPanel.add(lblItem);
 
 		JLabel lblDeadline = new JLabel("Deadline:");
-		lblDeadline.setBounds(10, 39, 45, 14);
+		lblDeadline.setBounds(10, 39, 55, 14);
+		lblDeadline.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		contentPanel.add(lblDeadline);
 
 		JLabel lblWeight = new JLabel("Weight:");
-		lblWeight.setBounds(10, 67, 38, 14);
+		lblWeight.setBounds(10, 67, 45, 14);
+		lblWeight.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		contentPanel.add(lblWeight);
 
 		txtWeight = new JTextField();
 		txtWeight.setBounds(90, 64, 120, 20);
+		txtWeight.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		contentPanel.add(txtWeight);
 		txtWeight.setColumns(10);
 
 		JLabel lblAmount = new JLabel("Amount:");
-		lblAmount.setBounds(253, 67, 41, 14);
+		lblAmount.setBounds(253, 67, 50, 14);
+		lblAmount.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		contentPanel.add(lblAmount);
 
 		txtAmount = new JTextField();
 		txtAmount.setBounds(317, 64, 120, 20);
+		txtAmount.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		contentPanel.add(txtAmount);
 		txtAmount.setColumns(10);
 
 		chckbxDelivery = new JCheckBox("Delivery");
-		chckbxDelivery.setBounds(90, 91, 65, 23);
+		chckbxDelivery.setBounds(90, 91, 80, 23);
+		chckbxDelivery.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		contentPanel.add(chckbxDelivery);
 
 		chckbxCool = new JCheckBox("Cool");
-		chckbxCool.setBounds(187, 91, 47, 23);
+		chckbxCool.setBounds(187, 91, 60, 23);
+		chckbxCool.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		contentPanel.add(chckbxCool);
 
 		chckbxCut = new JCheckBox("Cut");
-		chckbxCut.setBounds(285, 91, 43, 23);
+		chckbxCut.setBounds(285, 91, 50, 23);
+		chckbxCut.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		contentPanel.add(chckbxCut);
 
 		JLabel lblPackage = new JLabel("Package");
-		lblPackage.setBounds(10, 124, 40, 14);
+		lblPackage.setBounds(10, 124, 50, 14);
+		lblPackage.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		contentPanel.add(lblPackage);
 
 		JLabel lblAdditionalNotes = new JLabel("Notes:");
 		lblAdditionalNotes.setBounds(10, 152, 81, 14);
+		lblAdditionalNotes.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		contentPanel.add(lblAdditionalNotes);
 
 		textArea = new JTextArea();
 		textArea.setBounds(90, 152, 347, 99);
+		textArea.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		contentPanel.add(textArea);
 
 		JLabel lblDeliveryTime = new JLabel("Delivery time:");
-		lblDeliveryTime.setBounds(10, 268, 66, 14);
+		lblDeliveryTime.setBounds(10, 268, 100, 14);
+		lblDeliveryTime.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		contentPanel.add(lblDeliveryTime);
 
 		deadline = new DateTimePicker();
 		deadline.setBounds(90, 39, 347, 20);
+		deadline.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		contentPanel.add(deadline);
 
 		deliveryTime = new DateTimePicker();
 		deliveryTime.setBounds(90, 265, 347, 20);
+		deliveryTime.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		contentPanel.add(deliveryTime);
 
 		{
@@ -156,12 +174,14 @@ public class AddItemDialog extends JDialog {
 			{
 				okButton = new JButton("OK");
 				okButton.setActionCommand("OK");
+				okButton.setFont(new Font("SansSerif", Font.PLAIN, 12));
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
 				cancelButton = new JButton("Cancel");
 				cancelButton.setActionCommand("Cancel");
+				cancelButton.setFont(new Font("SansSerif", Font.PLAIN, 12));
 				buttonPane.add(cancelButton);
 			}
 		}
