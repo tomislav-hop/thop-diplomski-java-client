@@ -86,7 +86,6 @@ public class ViewOrderHistoryWindow extends JFrame {
 		for (String column : orderColumnNames) {
 			orderModel.addColumn(column);
 		}
-		orderModel.addRow(orderColumnNames);
 		OrderImpl orderImpl = new OrderImpl();
 		List<Order> orderList = orderImpl.getOrderList(userId);
 		fillOrderTable(orderList);
@@ -106,7 +105,6 @@ public class ViewOrderHistoryWindow extends JFrame {
 			itemsModel.addColumn(column);
 
 		}
-		itemsModel.addRow(itemsColumnNames);
 		itemTable = new JTable(itemsModel);
 
 	}
@@ -128,7 +126,7 @@ public class ViewOrderHistoryWindow extends JFrame {
 
 	private void fillItemsTable(String idOrder) {
 		List<OrderItems> orderItemsList = new OrderImpl().getOrderItemsList(idOrder);
-		if(orderItemsList.size()>0){
+		if(orderItemsList != null && orderItemsList.size()>0){
 		for (OrderItems oi : orderItemsList) {
 			String[] row = { new ItemImpl().getItemName(itemList, oi.getId_item()), oi.getDeadline(), String.valueOf(oi.getWeight()), (oi.getDelivery() == 1 ? "Yes" : "No"), (oi.getCool() == 1 ? "Yes" : "No"), (oi.getCut() == 1 ? "Yes" : "No"), new PackageImpl().getPackageName(packageList, oi.getId_package()), oi.getAdditionalNotes(), String.valueOf(oi.getAmount()), oi.getDeliveryTime() };
 			itemsModel.addRow(row);

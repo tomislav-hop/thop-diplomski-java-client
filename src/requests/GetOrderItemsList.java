@@ -28,10 +28,13 @@ public class GetOrderItemsList {
 			//System.out.println(responseJson);
 			OrderItems[] oi = gson.fromJson(responseJson, OrderItems[].class);
 			List<OrderItems> OrderItemsList = new ArrayList<OrderItems>();
-			for(OrderItems s : oi){
-				OrderItemsList.add(s);
+			if (oi.length > 0) {
+				for (OrderItems s : oi) {
+					OrderItemsList.add(s);
+				}
+				return OrderItemsList;
 			}
-			return OrderItemsList;
+			return null;
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;

@@ -101,8 +101,8 @@ public class MainUserInterface extends JFrame {
 		btnCalculateTime.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				//TODO: Show order history
-				System.out.println("Test");
+				BakeTimeDialog btd = new BakeTimeDialog();
+				btd.setVisible(true);
 			}
 		});
 		btnCalculateTime.setBounds(210, 25, 48, 48);
