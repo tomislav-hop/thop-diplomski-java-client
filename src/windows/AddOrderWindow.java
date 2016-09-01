@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -25,9 +24,6 @@ import implementations.ItemImpl;
 import implementations.OrderImpl;
 import implementations.PackageImpl;
 import implementations.StatusImpl;
-import requests.AddOrder;
-import requests.GetItemList;
-import requests.GetPackageList;
 
 import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
@@ -64,7 +60,7 @@ public class AddOrderWindow extends JFrame {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		try {
-			setIconImage(ImageIO.read(classLoader.getResourceAsStream("Deliver Food-48.png")));
+			setIconImage(ImageIO.read(classLoader.getResourceAsStream("Dining Room-48.png")));
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e) {
 			e.printStackTrace();

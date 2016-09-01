@@ -20,4 +20,6 @@ public class Urls {
 	public static final String GET_ORDER = START_URL + "order/get?orderId=";
 	public static final String ADD_FULL_ORDER = START_URL + "orderItems/add?orderId=";
 	public static final String GET_FULL_ORDER = START_URL + "orderItems/getAll?orderId=";
+	public static final String GET_ITEM_BAKE_TIME_P1 = START_URL + "item/bake?kg=";
+	public static final String GET_ITEM_BAKE_TIME_P2 = "&itemId=";
 }

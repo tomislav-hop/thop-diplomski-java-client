@@ -1,13 +1,14 @@
 package windows;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -23,10 +24,9 @@ import implementations.OrderImpl;
 import implementations.PackageImpl;
 import implementations.StatusImpl;
 
-import java.awt.Component;
 
 public class ViewOrderHistoryWindow extends JFrame {
-
+	private static final long serialVersionUID = -181291044074420287L;
 	private JPanel contentPane;
 	private JTable orderTable;
 	private JTable itemTable;
@@ -59,6 +59,14 @@ public class ViewOrderHistoryWindow extends JFrame {
 	public ViewOrderHistoryWindow(int userId) {
 		this.userId = userId;
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		try {
+			setIconImage(ImageIO.read(classLoader.getResourceAsStream("Clock-48.png")));
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		setTitle("Your order history");
 		setBounds(100, 100, 805, 625);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -91,7 +99,7 @@ public class ViewOrderHistoryWindow extends JFrame {
 		fillOrderTable(orderList);
 		orderTable = new JTable(orderModel);
 		orderTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-			
+
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				cleanOrderItemModel();
@@ -126,11 +134,11 @@ public class ViewOrderHistoryWindow extends JFrame {
 
 	private void fillItemsTable(String idOrder) {
 		List<OrderItems> orderItemsList = new OrderImpl().getOrderItemsList(idOrder);
-		if(orderItemsList != null && orderItemsList.size()>0){
-		for (OrderItems oi : orderItemsList) {
-			String[] row = { new ItemImpl().getItemName(itemList, oi.getId_item()), oi.getDeadline(), String.valueOf(oi.getWeight()), (oi.getDelivery() == 1 ? "Yes" : "No"), (oi.getCool() == 1 ? "Yes" : "No"), (oi.getCut() == 1 ? "Yes" : "No"), new PackageImpl().getPackageName(packageList, oi.getId_package()), oi.getAdditionalNotes(), String.valueOf(oi.getAmount()), oi.getDeliveryTime() };
-			itemsModel.addRow(row);
-		}
+		if (orderItemsList != null && orderItemsList.size() > 0) {
+			for (OrderItems oi : orderItemsList) {
+				String[] row = { new ItemImpl().getItemName(itemList, oi.getId_item()), oi.getDeadline(), String.valueOf(oi.getWeight()), (oi.getDelivery() == 1 ? "Yes" : "No"), (oi.getCool() == 1 ? "Yes" : "No"), (oi.getCut() == 1 ? "Yes" : "No"), new PackageImpl().getPackageName(packageList, oi.getId_package()), oi.getAdditionalNotes(), String.valueOf(oi.getAmount()), oi.getDeliveryTime() };
+				itemsModel.addRow(row);
+			}
 		}
 	}
 }

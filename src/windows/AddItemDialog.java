@@ -2,9 +2,6 @@ package windows;
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -23,7 +20,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import com.github.lgooddatepicker.components.DateTimePicker;
-import com.github.lgooddatepicker.components.TimePickerSettings;
 
 import gsonObjects.Item;
 import gsonObjects.Package;
@@ -73,7 +69,7 @@ public class AddItemDialog extends JDialog {
 		setTitle("Add Item To Order");
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		try {
-			setIconImage(ImageIO.read(classLoader.getResourceAsStream("Deliver Food-48.png")));
+			setIconImage(ImageIO.read(classLoader.getResourceAsStream("Dining Room-48.png")));
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e) {
 			e.printStackTrace();

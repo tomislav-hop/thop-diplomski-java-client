@@ -7,6 +7,8 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -17,7 +19,6 @@ import java.awt.Component;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import java.awt.Color;
 
 public class MainUserInterface extends JFrame {
 
@@ -103,6 +104,12 @@ public class MainUserInterface extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				BakeTimeDialog btd = new BakeTimeDialog();
 				btd.setVisible(true);
+				btd.addCancelListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						btd.dispose();
+					}
+				});
 			}
 		});
 		btnCalculateTime.setBounds(210, 25, 48, 48);
